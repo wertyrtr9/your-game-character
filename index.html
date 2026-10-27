@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Кто ты? | Меню</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Press Start 2P", monospace;
+      image-rendering: pixelated;
+      -webkit-font-smoothing: none;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      min-height: 100dvh;
+      gap: 32px;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      background: #ffffff;
+      width: 2px;
+      height: 2px;
+      animation: twinkle 2s infinite;
+    }
+
+    .star:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
+    .star:nth-child(2) { top: 15%; left: 80%; animation-delay: 0.3s; }
+    .star:nth-child(3) { top: 25%; left: 40%; animation-delay: 0.6s; }
+    .star:nth-child(4) { top: 30%; left: 70%; animation-delay: 0.9s; }
+    .star:nth-child(5) { top: 40%; left: 10%; animation-delay: 1.2s; }
+    .star:nth-child(6) { top: 50%; left: 90%; animation-delay: 1.5s; }
+    .star:nth-child(7) { top: 60%; left: 30%; animation-delay: 1.8s; }
+    .star:nth-child(8) { top: 70%; left: 60%; animation-delay: 2.1s; }
+    .star:nth-child(9) { top: 80%; left: 15%; animation-delay: 0.4s; }
+    .star:nth-child(10) { top: 85%; left: 85%; animation-delay: 1.0s; }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      z-index: 1;
+    }
+
+    .main-title {
+      font-size: clamp(10px, 2.5vw, 18px);
+      letter-spacing: 16px;
+      text-indent: 16px;
+      background: linear-gradient(45deg, #ff6b6b, #f7ff58, #55ff55, #55ffff, #3399ff, #ff55ff);
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 3s ease infinite;
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .main-subtitle {
+      font-size: clamp(6px, 1vw, 10px);
+      color: #ffffff;
+      letter-spacing: 8px;
+      text-indent: 8px;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 2px 2px 0 #ff6b6b;
+    }
+
+    .menu-frame {
+      width: min(880px, 90vw);
+      background: linear-gradient(135deg, rgba(85, 255, 255, 0.1) 0%, rgba(255, 107, 107, 0.1) 100%);
+      border: 4px solid transparent;
+      background-clip: padding-box;
+      position: relative;
+      padding: clamp(16px, 4vw, 40px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(16px, 4vw, 32px);
+      box-shadow: 
+        0 0 30px rgba(85, 255, 255, 0.4),
+        inset 0 0 30px rgba(255, 255, 255, 0.05);
+      z-index: 1;
+    }
+
+    .menu-frame::before {
+      content: "";
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      background: linear-gradient(45deg, #ff6b6b, #f7ff58, #55ff55, #55ffff, #3399ff, #ff55ff);
+      background-size: 400% 400%;
+      z-index: -1;
+      animation: gradientShift 3s ease infinite;
+    }
+
+    .menu-inner {
+      background: rgba(0, 0, 0, 0.8);
+      padding: clamp(16px, 4vw, 32px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(16px, 4vw, 32px);
+      position: relative;
+    }
+
+    .star-icon {
+      position: absolute;
+      left: clamp(20px, 5vw, 40px);
+      top: clamp(24px, 6vw, 48px);
+      font-size: clamp(8px, 1.6vw, 12px);
+      color: #f7ff58;
+      text-shadow: 0 0 10px rgba(247, 255, 88, 0.8);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    .menu-text {
+      font-size: clamp(8px, 1.6vw, 12px);
+      line-height: 2.2;
+      text-align: left;
+      padding-left: clamp(20px, 6vw, 48px);
+      min-height: clamp(40px, 6vw, 60px);
+      display: flex;
+      align-items: center;
+      white-space: normal;
+      color: #ffffff;
+      text-shadow: 2px 2px 0 #000000;
+    }
+
+    .menu-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding-left: clamp(20px, 6vw, 48px);
+    }
+
+    .menu-button {
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0%, transparent 100%);
+      color: #ffffff;
+      border: none;
+      font-size: clamp(8px, 1.6vw, 12px);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      padding: 12px 16px;
+      position: relative;
+      text-align: left;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: all 0.2s steps(2);
+      text-shadow: 2px 2px 0 #000000;
+    }
+
+    .menu-button::before {
+      content: ">";
+      opacity: 0;
+      transition: opacity 150ms steps(2);
+      color: #f7ff58;
+    }
+
+    .menu-button::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #f7ff58, transparent);
+      transition: width 0.3s steps(4);
+    }
+
+    .menu-button:hover::before,
+    .menu-button:focus-visible::before {
+      opacity: 1;
+    }
+
+    .menu-button:hover::after,
+    .menu-button:focus-visible::after {
+      width: 100%;
+    }
+
+    .menu-button:hover,
+    .menu-button:focus-visible {
+      padding-left: 24px;
+      outline: none;
+      background: linear-gradient(90deg, rgba(247, 255, 88, 0.1) 0%, transparent 100%);
+    }
+
+    .menu-button.undertale:hover {
+      color: #ff6b6b;
+      text-shadow: 2px 2px 0 #000000, 0 0 10px rgba(255, 107, 107, 0.6);
+    }
+
+    .menu-button.undertale::before {
+      color: #ff6b6b;
+    }
+
+    .menu-button.undertale::after {
+      background: linear-gradient(90deg, #ff6b6b, transparent);
+    }
+
+    .menu-button.minecraft:hover {
+      color: #55FF55;
+      text-shadow: 2px 2px 0 #000000, 0 0 10px rgba(85, 255, 85, 0.6);
+    }
+
+    .menu-button.minecraft::before {
+      color: #55FF55;
+    }
+
+    .menu-button.minecraft::after {
+      background: linear-gradient(90deg, #55FF55, transparent);
+    }
+
+    .menu-button.sonic:hover {
+      color: #3399ff;
+      text-shadow: 2px 2px 0 #000000, 0 0 10px rgba(51, 153, 255, 0.6);
+    }
+
+    .menu-button.sonic::before {
+      color: #3399ff;
+    }
+
+    .menu-button.sonic::after {
+      background: linear-gradient(90deg, #3399ff, transparent);
+    }
+
+    .menu-button.mario:hover {
+      color: #ff3333;
+      text-shadow: 2px 2px 0 #000000, 0 0 10px rgba(255, 51, 51, 0.6);
+    }
+
+    .menu-button.mario::before {
+      color: #ff3333;
+    }
+
+    .menu-button.mario::after {
+      background: linear-gradient(90deg, #ff3333, transparent);
+    }
+
+    .menu-button.forsaken:hover {
+      color: #9933ff;
+      text-shadow: 2px 2px 0 #000000, 0 0 10px rgba(153, 51, 255, 0.6);
+    }
+
+    .menu-button.forsaken::before {
+      color: #9933ff;
+    }
+
+    .menu-button.forsaken::after {
+      background: linear-gradient(90deg, #9933ff, transparent);
+    }
+
+    footer {
+      font-size: clamp(6px, 1vw, 8px);
+      color: #6b6b6b;
+      letter-spacing: 4px;
+      text-indent: 4px;
+      z-index: 1;
+      text-shadow: 0 0 5px rgba(107, 107, 107, 0.5);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="stars">
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+  </div>
+
+  <header>
+    <div class="main-title">WHO ARE YOU?</div>
+    <div class="main-subtitle">ВЫБЕРИ МИР</div>
+  </header>
+
+  <main class="menu-frame">
+    <div class="menu-inner">
+      <span class="star-icon">*</span>
+      <div class="menu-text">
+        Выбери игру, в которой хочешь узнать кто ты...
+      </div>
+      <nav class="menu-list">
+        <a class="menu-button undertale" href="undertale-kto-ty.html">
+          UNDERTALE
+        </a>
+        <a class="menu-button minecraft" href="minecraft-kto-ty.html">
+          MINECRAFT
+        </a>
+        <a class="menu-button sonic" href="sonic-kto-ty.html">
+          SONIC THE HEDGEHOG
+        </a>
+        <a class="menu-button mario" href="mario-kto-ty.html">
+          SUPER MARIO
+        </a>
+        <a class="menu-button forsaken" href="forsaken-kto-ty.html">
+          FORSAKEN (ROBLOX)
+        </a>
+      </nav>
+    </div>
+  </main>
+
+  <footer>
+    * DETERMINATION *
+  </footer>
+</body>
+
+</html>

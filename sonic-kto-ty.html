@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SONIC | Кто ты?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Press Start 2P", monospace;
+      image-rendering: pixelated;
+      -webkit-font-smoothing: none;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #001133 0%, #000000 60%);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      min-height: 100dvh;
+      gap: 32px;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 16px;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: repeating-linear-gradient(0deg,
+          rgba(51, 153, 255, 0.1) 0px,
+          rgba(51, 153, 255, 0.1) 2px,
+          transparent 2px,
+          transparent 4px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      z-index: 1;
+    }
+
+    .sonic-logo {
+      font-size: clamp(10px, 2vw, 16px);
+      letter-spacing: 10px;
+      text-indent: 10px;
+      color: #3399ff;
+      text-shadow: 3px 3px 0 #000055, 0 0 12px rgba(51, 153, 255, 0.8);
+    }
+
+    .sonic-subtitle {
+      font-size: clamp(6px, 1vw, 10px);
+      color: #ffff00;
+      letter-spacing: 6px;
+      text-indent: 6px;
+      text-shadow: 2px 2px 0 #aa5500;
+    }
+
+    .dialogue-frame {
+      width: min(880px, 90vw);
+      background: linear-gradient(180deg, #002266 0%, #001133 100%);
+      border: 4px solid #3399ff;
+      box-shadow: 
+        0 0 0 2px #000000,
+        0 0 20px rgba(51, 153, 255, 0.6),
+        inset 0 0 20px rgba(51, 153, 255, 0.2);
+      padding: clamp(16px, 4vw, 40px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(16px, 4vw, 32px);
+      position: relative;
+      z-index: 1;
+    }
+
+    .dialogue-inner {
+      background: linear-gradient(180deg, #000033 0%, #000011 100%);
+      border: 2px solid #3399ff;
+      box-shadow:
+        inset 0 0 10px rgba(51, 153, 255, 0.3);
+      padding: clamp(16px, 4vw, 32px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(16px, 4vw, 32px);
+    }
+
+    .star {
+      position: absolute;
+      left: clamp(20px, 5vw, 40px);
+      top: clamp(24px, 6vw, 48px);
+      font-size: clamp(8px, 1.6vw, 12px);
+      color: #ffff00;
+      text-shadow: 0 0 8px rgba(255, 255, 0, 0.8);
+    }
+
+    .dialogue-text {
+      font-size: clamp(8px, 1.6vw, 12px);
+      line-height: 2.2;
+      text-align: left;
+      padding-left: clamp(20px, 6vw, 48px);
+      min-height: clamp(72px, 12vw, 96px);
+      display: flex;
+      align-items: center;
+      white-space: normal;
+      color: #ffffff;
+      text-shadow: 2px 2px 0 #000055;
+    }
+
+    .character-name {
+      color: #ffff00;
+      text-shadow: 2px 2px 0 #aa5500, 0 0 8px rgba(255, 255, 0, 0.6);
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .sonic-button {
+      background: linear-gradient(180deg, #3399ff 0%, #0066cc 100%);
+      color: #ffffff;
+      border: 2px solid #66ccff;
+      font-size: clamp(8px, 1.6vw, 12px);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      padding: 10px 24px;
+      text-shadow: 2px 2px 0 #000055;
+      box-shadow: 
+        0 0 10px rgba(51, 153, 255, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      position: relative;
+      transition: all 0.1s steps(2);
+    }
+
+    .sonic-button::before {
+      content: "*";
+      opacity: 0;
+      transition: opacity 150ms steps(2);
+      text-shadow: 2px 2px 0 #000055;
+    }
+
+    .sonic-button:hover::before,
+    .sonic-button:focus-visible::before {
+      opacity: 1;
+    }
+
+    .sonic-button:hover,
+    .sonic-button:focus-visible {
+      color: #ffff00;
+      outline: none;
+      box-shadow: 
+        0 0 15px rgba(255, 255, 0, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    .sonic-button:active {
+      background: linear-gradient(180deg, #0066cc 0%, #3399ff 100%);
+      transform: translate(1px, 1px);
+    }
+
+    .back-button {
+      background: transparent;
+      color: #aaaaaa;
+      border: none;
+      font-size: clamp(6px, 1vw, 8px);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      padding: 6px 12px;
+      text-decoration: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    .back-button::before {
+      content: "*";
+      opacity: 0;
+      transition: opacity 150ms steps(2);
+    }
+
+    .back-button:hover::before,
+    .back-button:focus-visible::before {
+      opacity: 1;
+    }
+
+    .back-button:hover,
+    .back-button:focus-visible {
+      color: #3399ff;
+      outline: none;
+    }
+
+    footer {
+      font-size: clamp(6px, 1vw, 8px);
+      color: #555555;
+      letter-spacing: 4px;
+      text-indent: 4px;
+      z-index: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="sonic-logo">SONIC THE HEDGEHOG</div>
+    <div class="sonic-subtitle">КТО ЖЕ ТЫ?</div>
+  </header>
+
+  <main class="dialogue-frame">
+    <div class="dialogue-inner">
+      <span class="star">*</span>
+      <div class="dialogue-text" id="dialogue-text">
+        Нажми кнопку, чтобы узнать, кем ты являешься в Зоне Свободы...
+      </div>
+      <div class="actions">
+        <button class="sonic-button" id="who-are-you">
+          КТО ТЫ?
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <a class="back-button" href="index.html">
+    НАЗАД В МЕНЮ
+  </a>
+
+  <footer>
+    * Gotta Go Fast! *
+  </footer>
+
+  <script>
+    const characters = [
+      "SONIC",
+      "TAILS",
+      "KNUCKLES",
+      "AMY ROSE",
+      "SHADOW",
+      "ROUGE",
+      "SILVER",
+      "BLAZE",
+      "VECTOR",
+      "ESPIO",
+      "CHARMY",
+      "SILVER",
+      "CREAM",
+      "VANILLA",
+      "EGGMAN",
+      "METAL SONIC",
+      "ORBOT",
+      "CUBOT",
+      "BIG THE CAT",
+      "FROGGY",
+      "CHAOTIX",
+      "TEAM CHAOTIX",
+      "SALLY ACORN",
+      "ANTONIO",
+      "MIGHTY",
+      "RAY",
+      "ESPIO",
+      "FANG",
+      "BEAN",
+      "BARK"
+    ];
+
+    const dialogueText = document.getElementById("dialogue-text");
+    const button = document.getElementById("who-are-you");
+
+    button.addEventListener("click", () => {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      const picked = characters[randomIndex];
+
+      dialogueText.innerHTML = `Ты...<br><span class="character-name">${picked}</span>!`;
+    });
+  </script>
+</body>
+
+</html>

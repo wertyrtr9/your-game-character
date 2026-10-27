@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SUPER MARIO | Кто ты?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Press Start 2P", monospace;
+      image-rendering: pixelated;
+      -webkit-font-smoothing: none;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: linear-gradient(180deg, #5c94fc 0%, #5c94fc 70%, #8b4513 70%, #654321 100%);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      min-height: 100dvh;
+      gap: 32px;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .clouds {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .cloud {
+      position: absolute;
+      background: #ffffff;
+      width: 60px;
+      height: 20px;
+      border-radius: 10px;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .cloud::before,
+    .cloud::after {
+      content: "";
+      position: absolute;
+      background: #ffffff;
+      border-radius: 50%;
+    }
+
+    .cloud::before {
+      width: 30px;
+      height: 30px;
+      top: -15px;
+      left: 10px;
+    }
+
+    .cloud::after {
+      width: 40px;
+      height: 40px;
+      top: -20px;
+      right: 10px;
+    }
+
+    .cloud:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+    .cloud:nth-child(2) { top: 15%; left: 70%; animation-delay: 2s; }
+    .cloud:nth-child(3) { top: 20%; left: 40%; animation-delay: 4s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateX(0px); }
+      50% { transform: translateX(30px); }
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      z-index: 1;
+    }
+
+    .mario-logo {
+      font-size: clamp(10px, 2vw, 16px);
+      letter-spacing: 10px;
+      text-indent: 10px;
+      color: #ff3333;
+      text-shadow: 3px 3px 0 #800000, 0 0 15px rgba(255, 51, 51, 0.6);
+    }
+
+    .mario-subtitle {
+      font-size: clamp(6px, 1vw, 10px);
+      color: #ffff00;
+      letter-spacing: 6px;
+      text-indent: 6px;
+      text-shadow: 2px 2px 0 #aa5500;
+    }
+
+    .dialogue-frame {
+      width: min(880px, 90vw);
+      background: linear-gradient(180deg, #ffffff 0%, #e0e0e0 100%);
+      border: 4px solid #000000;
+      box-shadow: 
+        0 0 0 2px #ff3333,
+        0 0 30px rgba(255, 51, 51, 0.5),
+        inset 0 4px 0 #ffffff;
+      padding: clamp(16px, 4vw, 40px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(16px, 4vw, 32px);
+      position: relative;
+      z-index: 1;
+    }
+
+    .dialogue-inner {
+      background: linear-gradient(180deg, #f0f0f0 0%, #d0d0d0 100%);
+      border: 2px solid #000000;
+      padding: clamp(16px, 4vw, 32px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(16px, 4vw, 32px);
+    }
+
+    .star {
+      position: absolute;
+      left: clamp(20px, 5vw, 40px);
+      top: clamp(24px, 6vw, 48px);
+      font-size: clamp(8px, 1.6vw, 12px);
+      color: #ff3333;
+      text-shadow: 2px 2px 0 #000000;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    .dialogue-text {
+      font-size: clamp(8px, 1.6vw, 12px);
+      line-height: 2.2;
+      text-align: left;
+      padding-left: clamp(20px, 6vw, 48px);
+      min-height: clamp(72px, 12vw, 96px);
+      display: flex;
+      align-items: center;
+      white-space: normal;
+      color: #000000;
+      text-shadow: 1px 1px 0 #ffffff;
+    }
+
+    .character-name {
+      color: #ff3333;
+      text-shadow: 2px 2px 0 #000000, 0 0 8px rgba(255, 51, 51, 0.6);
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mario-button {
+      background: linear-gradient(180deg, #ff3333 0%, #cc0000 100%);
+      color: #ffffff;
+      border: 2px solid #000000;
+      font-size: clamp(8px, 1.6vw, 12px);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      padding: 10px 24px;
+      text-shadow: 2px 2px 0 #000000;
+      box-shadow: 
+        inset 2px 2px 0 #ff6666,
+        inset -2px -2px 0 #990000;
+      position: relative;
+      transition: all 0.1s steps(2);
+    }
+
+    .mario-button::before {
+      content: "*";
+      opacity: 0;
+      transition: opacity 150ms steps(2);
+      text-shadow: 2px 2px 0 #000000;
+    }
+
+    .mario-button:hover::before,
+    .mario-button:focus-visible::before {
+      opacity: 1;
+    }
+
+    .mario-button:hover,
+    .mario-button:focus-visible {
+      color: #ffff00;
+      outline: none;
+      text-shadow: 2px 2px 0 #000000, 0 0 10px rgba(255, 255, 0, 0.6);
+    }
+
+    .mario-button:active {
+      box-shadow: 
+        inset 2px 2px 0 #990000,
+        inset -2px -2px 0 #ff6666;
+      transform: translate(1px, 1px);
+    }
+
+    .back-button {
+      background: linear-gradient(180deg, #ffffff 0%, #cccccc 100%);
+      color: #000000;
+      border: 2px solid #000000;
+      font-size: clamp(6px, 1vw, 8px);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      padding: 8px 16px;
+      text-decoration: none;
+      position: relative;
+      z-index: 1;
+      text-shadow: 1px 1px 0 #ffffff;
+      box-shadow: 
+        inset 2px 2px 0 #ffffff,
+        inset -2px -2px 0 #999999;
+      transition: all 0.1s steps(2);
+    }
+
+    .back-button::before {
+      content: "*";
+      opacity: 0;
+      transition: opacity 150ms steps(2);
+    }
+
+    .back-button:hover::before,
+    .back-button:focus-visible::before {
+      opacity: 1;
+    }
+
+    .back-button:hover,
+    .back-button:focus-visible {
+      color: #ff3333;
+      outline: none;
+    }
+
+    .back-button:active {
+      box-shadow: 
+        inset 2px 2px 0 #999999,
+        inset -2px -2px 0 #ffffff;
+      transform: translate(1px, 1px);
+    }
+
+    footer {
+      font-size: clamp(6px, 1vw, 8px);
+      color: #ffffff;
+      letter-spacing: 4px;
+      text-indent: 4px;
+      z-index: 1;
+      text-shadow: 2px 2px 0 #000000;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="clouds">
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+  </div>
+
+  <header>
+    <div class="mario-logo">SUPER MARIO</div>
+    <div class="mario-subtitle">КТО ЖЕ ТЫ?</div>
+  </header>
+
+  <main class="dialogue-frame">
+    <div class="dialogue-inner">
+      <span class="star">*</span>
+      <div class="dialogue-text" id="dialogue-text">
+        Нажми кнопку, чтобы узнать, кем ты являешься в Королевстве Грибов...
+      </div>
+      <div class="actions">
+        <button class="mario-button" id="who-are-you">
+          КТО ТЫ?
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <a class="back-button" href="index.html">
+    НАЗАД В МЕНЮ
+  </a>
+
+  <footer>
+    * IT'S-A ME, MARIO! *
+  </footer>
+
+  <script>
+    const characters = [
+      "MARIO",
+      "LUIGI",
+      "PRINCESS PEACH",
+      "TOAD",
+      "YOSHI",
+      "BOWSER",
+      "PRINCESS DAISY",
+      "WARIO",
+      "WALUIGI",
+      "ROSALINA",
+      "TOADETTE",
+      "KOOPA TROOPA",
+      "GOOMBA",
+      "BOO",
+      "SHY GUY",
+      "CHEEP CHEEP",
+      "BULLET BILL",
+      "LAKITU",
+      "HAMMER BRO",
+      "DRY BONES",
+      "BIRDO",
+      "KING BOO",
+      "CAPPY",
+      "PAULINE"
+    ];
+
+    const dialogueText = document.getElementById("dialogue-text");
+    const button = document.getElementById("who-are-you");
+
+    button.addEventListener("click", () => {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      const picked = characters[randomIndex];
+
+      dialogueText.innerHTML = `Ты...<br><span class="character-name">${picked}</span>!`;
+    });
+  </script>
+</body>
+
+</html>

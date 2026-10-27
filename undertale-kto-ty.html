@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UNDERTALE | Кто ты?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Press Start 2P", monospace;
+      image-rendering: pixelated;
+      -webkit-font-smoothing: none;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background-color: #000000;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      min-height: 100dvh;
+      gap: 32px;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 16px;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .undertale-logo {
+      font-size: clamp(10px, 2vw, 16px);
+      letter-spacing: 12px;
+      text-indent: 12px;
+      text-shadow: 3px 3px 0 #333333;
+    }
+
+    .undertale-subtitle {
+      font-size: clamp(6px, 1vw, 10px);
+      color: #ff6b6b;
+      letter-spacing: 6px;
+      text-indent: 6px;
+      text-shadow: 2px 2px 0 #550000;
+    }
+
+    .dialogue-frame {
+      width: min(880px, 90vw);
+      border: 6px solid #ffffff;
+      border-image: repeating-linear-gradient(45deg,
+          #ffffff 0 4px,
+          transparent 4px 8px) 6;
+      padding: clamp(16px, 4vw, 40px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(16px, 4vw, 32px);
+      position: relative;
+      box-shadow: 0 0 0 2px #000000, 0 0 0 8px #ffffff, 0 0 30px rgba(255, 255, 255, 0.3);
+    }
+
+    .star {
+      position: absolute;
+      left: clamp(12px, 3vw, 28px);
+      top: clamp(16px, 4vw, 40px);
+      font-size: clamp(8px, 1.6vw, 12px);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.1); }
+    }
+
+    .dialogue-text {
+      font-size: clamp(8px, 1.6vw, 12px);
+      line-height: 2.2;
+      text-align: left;
+      padding-left: clamp(20px, 6vw, 48px);
+      min-height: clamp(72px, 12vw, 96px);
+      display: flex;
+      align-items: center;
+      white-space: normal;
+      text-shadow: 2px 2px 0 #000000;
+    }
+
+    .character-name {
+      color: #f7ff58;
+      text-shadow: 2px 2px 0 #000000, 0 0 10px rgba(247, 255, 88, 0.6);
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .undertale-button {
+      background: linear-gradient(90deg, transparent 0%, rgba(247, 255, 88, 0.1) 50%, transparent 100%);
+      background-size: 200% 100%;
+      color: #ffffff;
+      border: none;
+      font-size: clamp(8px, 1.6vw, 12px);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      padding: 12px 24px;
+      position: relative;
+      transition: all 0.2s steps(2);
+      text-shadow: 2px 2px 0 #000000;
+    }
+
+    .undertale-button::before {
+      content: "*";
+      opacity: 0;
+      transition: opacity 150ms steps(2);
+    }
+
+    .undertale-button:hover::before,
+    .undertale-button:focus-visible::before {
+      opacity: 1;
+    }
+
+    .undertale-button:hover,
+    .undertale-button:focus-visible {
+      color: #f7ff58;
+      outline: none;
+      background-position: -100% 0;
+      padding-left: 32px;
+      text-shadow: 2px 2px 0 #000000, 0 0 10px rgba(247, 255, 88, 0.6);
+    }
+
+    .undertale-button:active {
+      transform: translateY(2px);
+    }
+
+    .back-button {
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 107, 107, 0.1) 50%, transparent 100%);
+      background-size: 200% 100%;
+      color: #aaaaaa;
+      border: none;
+      font-size: clamp(6px, 1vw, 8px);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      padding: 8px 16px;
+      text-decoration: none;
+      position: relative;
+      transition: all 0.2s steps(2);
+      text-shadow: 2px 2px 0 #000000;
+    }
+
+    .back-button::before {
+      content: "*";
+      opacity: 0;
+      transition: opacity 150ms steps(2);
+    }
+
+    .back-button:hover::before,
+    .back-button:focus-visible::before {
+      opacity: 1;
+    }
+
+    .back-button:hover,
+    .back-button:focus-visible {
+      color: #ff6b6b;
+      outline: none;
+      background-position: -100% 0;
+      padding-left: 20px;
+      text-shadow: 2px 2px 0 #000000, 0 0 10px rgba(255, 107, 107, 0.6);
+    }
+
+    footer {
+      font-size: clamp(6px, 1vw, 8px);
+      color: #6b6b6b;
+      letter-spacing: 4px;
+      text-indent: 4px;
+      text-shadow: 0 0 5px rgba(107, 107, 107, 0.5);
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="undertale-logo">UNDERTALE</div>
+    <div class="undertale-subtitle">КТО ЖЕ ТЫ?</div>
+  </header>
+
+  <main class="dialogue-frame">
+    <span class="star">*</span>
+    <div class="dialogue-text" id="dialogue-text">
+      Нажми кнопку, чтобы узнать, кем ты являешься в этом подземелье...
+    </div>
+    <div class="actions">
+      <button class="undertale-button" id="who-are-you">
+        КТО ТЫ?
+      </button>
+    </div>
+  </main>
+
+  <a class="back-button" href="index.html">
+    НАЗАД В МЕНЮ
+  </a>
+
+  <footer>
+    * DETERMINATION *
+  </footer>
+
+  <script>
+    const characters = [
+      "SANS",
+      "PAPYRUS",
+      "TORIEL",
+      "FLOWEY",
+      "UNDYNE",
+      "ALPHYS",
+      "ASGORE DREEMURR",
+      "METTATON EX",
+      "NAPSTABLOOK",
+      "MUFFET",
+      "TEMMIE",
+      "GRILLBY",
+      "BURGERPANTS",
+      "ONIONSAN",
+      "CHARA",
+      "FRISK",
+      "ASRIEL DREEMURR",
+      "W.D. GASTER",
+      "MAD DUMMY",
+      "SOUL OF JUSTICE"
+    ];
+
+    const dialogueText = document.getElementById("dialogue-text");
+    const button = document.getElementById("who-are-you");
+
+    button.addEventListener("click", () => {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      const picked = characters[randomIndex];
+
+      dialogueText.innerHTML = `Ты...<br><span class="character-name">${picked}</span>!`;
+    });
+  </script>
+</body>
+
+</html>

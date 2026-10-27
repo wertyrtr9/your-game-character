@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FORSAKEN | Кто ты?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Press Start 2P", monospace;
+      image-rendering: pixelated;
+      -webkit-font-smoothing: none;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: radial-gradient(circle at center, #1a0033 0%, #000000 70%);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      min-height: 100dvh;
+      gap: 32px;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0));
+      background-repeat: repeat;
+      background-size: 150px 100px;
+      animation: twinkle 4s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.7; }
+    }
+
+    .blood-drip {
+      position: fixed;
+      top: 0;
+      width: 4px;
+      height: 60px;
+      background: linear-gradient(180deg, #990000 0%, #660000 100%);
+      animation: drip 3s ease-in infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .blood-drip:nth-child(1) { left: 10%; animation-delay: 0s; }
+    .blood-drip:nth-child(2) { left: 30%; animation-delay: 1s; }
+    .blood-drip:nth-child(3) { left: 50%; animation-delay: 2s; }
+    .blood-drip:nth-child(4) { left: 70%; animation-delay: 0.5s; }
+    .blood-drip:nth-child(5) { left: 90%; animation-delay: 1.5s; }
+
+    @keyframes drip {
+      0% { height: 0; opacity: 1; }
+      50% { height: 60px; opacity: 1; }
+      100% { height: 80px; opacity: 0; }
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      z-index: 1;
+    }
+
+    .forsaken-logo {
+      font-size: clamp(10px, 2vw, 16px);
+      letter-spacing: 12px;
+      text-indent: 12px;
+      color: #9933ff;
+      text-shadow: 3px 3px 0 #330066, 0 0 20px rgba(153, 51, 255, 0.8);
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+      0%, 100% { text-shadow: 3px 3px 0 #330066, 0 0 20px rgba(153, 51, 255, 0.8); }
+      50% { text-shadow: 3px 3px 0 #330066, 0 0 30px rgba(153, 51, 255, 1), 0 0 40px rgba(153, 51, 255, 0.6); }
+    }
+
+    .forsaken-subtitle {
+      font-size: clamp(6px, 1vw, 10px);
+      color: #ff3333;
+      letter-spacing: 6px;
+      text-indent: 6px;
+      text-shadow: 2px 2px 0 #660000;
+    }
+
+    .dialogue-frame {
+      width: min(880px, 90vw);
+      background: linearlinear-gradient(135deg, rgba(153, 51, 255, 0.2) 0%, rgba(51, 0, 102, 0.3) 100%);
+      border: 4px solid #9933ff;
+      box-shadow: 
+        0 0 0 2px #000000,
+        0 0 30px rgba(153, 51, 255, 0.6),
+        inset 0 0 30px rgba(153, 51, 255, 0.2);
+      padding: clamp(16px, 4vw, 40px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(16px, 4vw, 32px);
+      position: relative;
+      z-index: 1;
+    }
+
+    .dialogue-inner {
+      background: linear-gradient(180deg, #0a001a 0%, #000000 100%);
+      border: 2px solid #9933ff;
+      box-shadow:
+        inset 0 0 20px rgba(153, 51, 255, 0.3);
+      padding: clamp(16px, 4vw, 32px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(16px, 4vw, 32px);
+    }
+
+    .star {
+      position: absolute;
+      left: clamp(20px, 5vw, 40px);
+      top: clamp(24px, 6vw, 48px);
+      font-size: clamp(8px, 1.6vw, 12px);
+      color: #ff3333;
+      text-shadow: 0 0 10px rgba(255, 51, 51, 0.8);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keytagframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.7; }
+    }
+
+    .dialogue-text {
+      font-size: clamp(8px, 1.6vw, 12px);
+      line-height: 2.2;
+      text-align: left;
+      padding-left: clamp(20px, 6vw, 48px);
+      min-height: clamp(72px, 12vw, 96px);
+      display: flex;
+      align-items: center;
+      white-space: normal;
+      color: #ffffff;
+      text-shadow: 2px 2px 0 #330066;
+    }
+
+    .character-name {
+      color: #ff3333;
+      text-shadow: 2px 2px 0 #000000, 0 0 10px rgba(255, 51, 51, 0.8);
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .forsaken-button {
+      background: linear-gradient(180deg, #9933ff 0%, #6600cc 100%);
+      color: #ffffff;
+      border: 2px solid #bb66ff;
+      font-size: clamp(8px, 1.6vw, 12px);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      padding: 10px 24px;
+      text-shadow: 2px 2px 0 #330066;
+      box-shadow: 
+        0 0 15px rgba(153, 51, 255, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      position: relative;
+      transition: all 0.1s steps(2);
+    }
+
+    .forsaken-button::before {
+      content: "*";
+      opacity: 0;
+      transition: opacity 150ms steps(2);
+      text-shadow: 2px 2px 0 #330066;
+    }
+
+    .forsaken-button:hover::before,
+    .forsaken-button:focus-visible::before {
+      opacity: 1;
+    }
+
+    .forsaken-button:hover,
+    .forsaken-button:focus-visible {
+      color: #ff3333;
+      outline: none;
+      box-shadow: 
+        0 0 20px rgba(255, 51, 51, 0.8),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      text-shadow: 2px 2px 0 #330066, 0 0 10px rgba(255, 51, 51, 0.6);
+    }
+
+    .forsaken-button:active {
+      background: linear-gradient(180deg, #6600cc 0%, #9933ff 100%);
+      transform: translate(1px, 1px);
+    }
+
+    .back-button {
+      background: linear-gradient(180deg, #330066 0%, #1a0033 100%);
+      color: #aaaaaa;
+      border: 2px solid #9933ff;
+      font-size: clamp(6px, 1vw, 8px);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      padding: 8px 16px;
+      text-decoration: none;
+      position: relative;
+      z-index: 1;
+      text-shadow: 2px 2px 0 #000000;
+      box-shadow: 0 0 10px rgba(153, 51, 255, 0.4);
+      transition: all 0.1s steps(2);
+    }
+
+    .back-button::before {
+      content: "*";
+      opacity: 0;
+      transition: opacity 150ms steps(2);
+    }
+
+    .back-button:hover::before,
+    .back-button:focus-visible::before {
+      opacity: 1;
+    }
+
+    .back-button:hover,
+    .back-button:focus-visible {
+      color: #9933ff;
+      outline: none;
+      box-shadow: 0 0 15px rgba(153, 51, 255, 0.7);
+    }
+
+    .back-button:active {
+      transform: translate(1px, 1px);
+    }
+
+    footer {
+      font-size: clamp(6px, 1vw, 8px);
+      color: #660000;
+      letter-spacing: 4px;
+      text-indent: 4px;
+      z-index: 1;
+      text-shadow: 0 0 5px rgba(102, 0, 0, 0.8);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="blood-drip"></div>
+  <div class="blood-drip"></div>
+  <div class="blood-drip"></div>
+  <div class="blood-drip"></div>
+  <div class="blood-drip"></div>
+
+  <header>
+    <div class="forsaken-logo">FORSAKEN</div>
+    <div class="forsaken-subtitle">КТО ЖЕ ТЫ?</div>
+  </header>
+
+  <main class="dialogue-frame">
+    <div class="dialogue-inner">
+      <span class="star">*</span>
+      <div class="dialogue-text" id="dialogue-text">
+        Нажми кнопку, чтобы узнать, кем ты являешься в этом мрачном мире...
+      </div>
+      <div class="actions">
+        <button class="forsaken-button" id="who-are-you">
+          КТО ТЫ?
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <a class="back-button" href="index.html">
+    НАЗАД В МЕНЮ
+  </a>
+
+  <footer>
+    * THE FORSAKEN AWAIT *
+  </footer>
+
+  <script>
+    const characters = [
+      "GUEST 1337",
+      "JASON",
+      "1X1X1X1",
+      "C00LKIDD",
+      "JOHN DOE",
+      "NOLI",
+      "SLASHER",
+      "KILLER",
+      "SPECTRE",
+      "BUILDERMAN",
+      "SHEDLETSKY",
+      "BRIGHHTEYES",
+      "TELAMON",
+      "DOOMBRINGER",
+      "MATT DUSEK",
+      "AMON",
+      "ZERAK",
+      "XENON",
+      "PR3TYPRINCESS",
+      "DUSEKKAR"
+    ];
+
+    const dialogueText = document.getElementById("dialogue-text");
+    const button = document.getElementById("who-are-you");
+
+    button.addEventListener("click", () => {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      const picked = characters[randomIndex];
+
+      dialogueText.innerHTML = `Ты...<br><span class="character-name">${picked}</span>!`;
+    });
+  </script>
+</body>
+
+</html>
